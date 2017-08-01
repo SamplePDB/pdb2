@@ -17,11 +17,11 @@ import static com.reachuson.app.pdb2.R.layout.activity_retail;
  * Created by root on 27/7/17.
  */
 
-public class list_item extends ArrayAdapter<String> {
+public class list_item extends ArrayAdapter<search> {
     private Activity context;
-    private List<String> result;
+    private List<search> result;
 
-    public list_item(Activity context, List<String> result){
+    public list_item(Activity context, List<search> result){
         super(context,activity_retail,result);
         this.context = context;
         this.result = result;
@@ -36,11 +36,11 @@ public class list_item extends ArrayAdapter<String> {
         TextView name = viewlistitem.findViewById(R.id.name);
         TextView mrp = viewlistitem.findViewById(R.id.mrp);
         TextView price = viewlistitem.findViewById(R.id.price);
-        String res = result.get(position);
-        brand.setText(res);
-        //name.setText(res.getName());
-        //mrp.setText(res.getMrp());
-       // price.setText(res.getprice());
+        search res = result.get(position);
+        brand.setText(res.getBrand());
+        name.setText(res.getName());
+        mrp.setText(res.getMrp());
+        price.setText(res.getprice());
         return viewlistitem;
     }
 }

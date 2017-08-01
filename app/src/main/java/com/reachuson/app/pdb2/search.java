@@ -17,6 +17,7 @@ public class search {
     private String year;
     private String price;
     private String id;
+    private String refCode;
 
     public search() {
       /*Blank default constructor essential for Firebase*/
@@ -55,6 +56,8 @@ public class search {
         this.id = id;
     }
     public String getid(){return id;}
+
+
 
 
 

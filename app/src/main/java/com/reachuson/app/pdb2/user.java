@@ -6,10 +6,9 @@ package com.reachuson.app.pdb2;
 
 public class user {
 
-    //name and address string
     private String name,mName,Prod,Qty,Mrp,Price,Mon,Year,Tax,state;
     private String Instname,lcn;
-    private String pin;
+    private String pin,refcode;
     private String number;
 
     public user() {
@@ -24,7 +23,7 @@ public class user {
         this.name = name;
     }
 
-    public String getInst() {
+    public String getinst() {
         return Instname;
     }
 
@@ -54,6 +53,14 @@ public class user {
 
     public void setlcn(String lcn) {
         this.lcn = lcn;
+    }
+
+    public String getcode() {
+        return refcode;
+    }
+
+    public void setcode(String refcode) {
+        this.refcode = refcode;
     }
 
 

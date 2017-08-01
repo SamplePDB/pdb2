@@ -31,22 +31,26 @@ import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 
 public class Home extends AppCompatActivity {
 
 
 
-    private DatabaseReference databaseReference,ex2;
+    private DatabaseReference databaseReference,ex2,ref;
     private FirebaseDatabase mdb;
     private FirebaseAuth mauth;
     private EditText searche,name,ph;
     private ListView ans;
+    private String message;
+    private  String response;
     private String usrID;
+    private String refCode;
     private Button glass,refer;
     String authkey = "167803Ai4BFvQd597f3709";
     String senderId = "102234";
-    String message = "http://www.google.com";
+
     String route="default";
     private Context mcon;
     List<search> searches;
@@ -59,11 +63,14 @@ public class Home extends AppCompatActivity {
         setContentView(R.layout.activity_retail);
         ans = (ListView)findViewById(R.id.viewlistitem);
         searches = new ArrayList<search>();
+        mauth = FirebaseAuth.getInstance();
 
         mdb = FirebaseDatabase.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference();
         FirebaseUser usr = mauth.getCurrentUser();
         usrID = usr.getUid();
+        ref = FirebaseDatabase.getInstance().getReference(usrID).child("Info");
+        message = "Referral code:\nhttp://www.google.com";
         glass = (Button)findViewById(R.id.button3);
         refer = (Button)findViewById(R.id.refer);
         searche = (EditText)findViewById(R.id.editText3);
@@ -107,6 +114,8 @@ public class Home extends AppCompatActivity {
 
 
 
+
+
             }
         });
     }
@@ -119,7 +128,13 @@ public class Home extends AppCompatActivity {
         new AlertDialog.Builder(this)
                 .setTitle("Exit?")
                 .setMessage("Want to Exit?")
-                .setNegativeButton("I Do",null)
+                .setNegativeButton("I Do", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent inte = new Intent(Home.this,Login.class);
+                        startActivity(inte);
+                    }
+                })
                 .setPositiveButton("I Don't", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -143,6 +158,21 @@ public class Home extends AppCompatActivity {
         usr.setName(Name);
         usr.setnumber(Ph);
         mdb.getReference(usrID).child("Referral").setValue(usr);
+
+        Query ex3 = ref.orderByChild("code");
+        ex3.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                user se  = dataSnapshot.getValue(user.class);
+                refCode = se.getcode();
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         Thread thread = new Thread(new Runnable() {
 
@@ -171,9 +201,12 @@ public class Home extends AppCompatActivity {
                         reader= new BufferedReader(new InputStreamReader(myURLConnection.getInputStream()));
 
 
-                        String response;
+
+
                         while ((response = reader.readLine()) != null)
                             Log.d("RESPONSE", ""+response);
+
+                        Toast.makeText(mcon, "Referral Successfully Sent!", Toast.LENGTH_SHORT).show();
 
                             reader.close();
                     }
@@ -188,7 +221,7 @@ public class Home extends AppCompatActivity {
         });
 
         thread.start();
-        Toast.makeText(this, "Referral Successfully Sent!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "code:"+refCode, Toast.LENGTH_SHORT).show();
 
 
     }

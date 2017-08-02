@@ -13,10 +13,12 @@ public class search {
     private String number;
     private String qty;
     private String Mrp;
+    private String batch;
     private String mon;
     private String year;
     private String price;
-    private String id;
+    private String tot;
+    private String exp;
     private String refCode;
 
     public search() {
@@ -52,10 +54,21 @@ public class search {
     }
     public String getyear(){return year;}
 
-    public void setid(String id) {
-        this.id = id;
+    public void setot(String tot) {
+        this.tot = tot;
     }
-    public String getid(){return id;}
+    public String gettot(){return tot;}
+
+    public void setbatch(String batch) {
+        this.batch = batch;
+    }
+    public String getbatch(){return batch;}
+
+    public void setexp(String exp) {
+        this.exp = exp;
+    }
+    public String getexp(){return exp;}
+
 
 
 
